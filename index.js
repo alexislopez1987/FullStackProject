@@ -9,13 +9,12 @@ const bodyParser = require('body-parser');
 const routes = require('./api/routes/routes');
 const Item = require('./api/models/item');
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_PORT || 8080;
 const HOST = '0.0.0.0';
 
 const app = express();
 
 mongoose.Promise = global.Promise;
-//mongoose.connect(`mongodb://${process.env.DBHOST}/PersonalFinancesDB`); 
 
 const options = {
   useNewUrlParser: true,
@@ -29,7 +28,7 @@ const options = {
 
 const connectWithRetry = () => {
   console.log('MongoDB connection with retry')
-  mongoose.connect(`mongodb://${process.env.DBHOST}/PersonalFinancesDB`, options).then(() => {
+  mongoose.connect(`mongodb://${process.env.DBHOST}:${process.env.DBPORT}/PersonalFinancesDB`, options).then(() => {
     console.log('MongoDB is connected')
   }).catch(err => {
     console.error('ERROR!!!');

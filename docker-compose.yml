@@ -3,7 +3,9 @@ services:
   app:
     container_name: nodejs
     restart: always
-    build: ./
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - "49160:8080"
     volumes:
@@ -13,7 +15,7 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    volumes:
-      - ./data:/data/db
+    #volumes:
+      #- ./data:/data/db
     ports:
       - "27017:27017"

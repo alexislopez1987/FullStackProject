@@ -7,8 +7,6 @@ exports.list_all_users = function (req, res) {
     exec(function (err, users) {
         if (err)
             res.send(err);
-        console.log("debug");
-        console.log(users);
         res.json(users);
     });
 };

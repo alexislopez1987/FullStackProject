@@ -33,12 +33,4 @@ ItemSchema.index({
     name: 'text'
 });
 
-/*
-ItemSchema.virtual('user', {
-    ref: 'User', // what model to link?
-    localField: 'owner', // which field on the item?
-    foreignField: '_id' // which field on the user?
-});
-*/
-
 module.exports = mongoose.model('Item', ItemSchema);

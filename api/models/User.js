@@ -22,11 +22,7 @@ var userSchema = new Schema({
         type: String,
         required: 'User last name is required',
         trim: true
-    },
-    items: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Item'
-    }]
+    }
 }, {
     toJSON: {
         virtuals: true
@@ -39,5 +35,19 @@ var userSchema = new Schema({
 userSchema.virtual('fullName').get(function () {
     return this.name + ' ' + this.lastName;
 });
+
+userSchema.virtual('items', {
+    ref: 'Item', 
+    localField: '_id', 
+    foreignField: 'owner' 
+});
+
+function autopopulate(next) {
+    this.populate('items');
+    next();
+}
+
+userSchema.pre('find', autopopulate);
+userSchema.pre('findOne', autopopulate);
 
 module.exports = mongoose.model('User', userSchema);

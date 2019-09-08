@@ -9,7 +9,7 @@ const morgan = require('morgan');
 
 const routes = require('./api/routes/routes');
 
-require('./api/models/item');
+require('./api/models/Item');
 require('./api/models/User');
 
 const PORT = process.env.NODE_PORT || 8080;

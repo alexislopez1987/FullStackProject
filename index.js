@@ -8,7 +8,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const routes = require('./api/routes/routes');
-const Item = require('./api/models/item');
+
+require('./api/models/item');
+require('./api/models/User');
 
 const PORT = process.env.NODE_PORT || 8080;
 const HOST = '0.0.0.0';

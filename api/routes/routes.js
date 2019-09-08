@@ -1,12 +1,15 @@
 'use strict';
 module.exports = function (app) {
-    var itemList = require('../controllers/itemController');
-
-    app.route('/items')
-        .get(itemList.list_all_items);
+    var itemController = require('../controllers/itemController');
+    var userController = require('../controllers/userController');
 
     app.route('/item')
-        .post(itemList.save_item);
+        .get(itemController.list_all_items)
+        .post(itemController.save_item);
+
+    app.route('/user')
+        .get(userController.list_all_users)
+        .post(userController.save_user);
 
     /*
     app.route('/tasks/:taskId')

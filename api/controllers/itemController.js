@@ -1,11 +1,13 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Item = mongoose.model('Items');
+    Item = mongoose.model('Item');
 
 
 exports.list_all_items = function (req, res) {
-    Item.find({}, function (err, item) {
+    Item.find({}).
+    populate('owner', 'name lastName -_id').
+    exec(function (err, item) {
         if (err)
             res.send(err);
         res.json(item);
@@ -14,11 +16,14 @@ exports.list_all_items = function (req, res) {
 
 exports.save_item = function (req, res) {
 
-    const itemName = req.body.name;
-    const itemPrice = req.body.price;
+    const name = req.body.name;
+    const price = req.body.price;
+    const owner = req.body.owner;
+
     const itemToSave = new Item({
-        name: itemName,
-        price: itemPrice
+        name,
+        price,
+        owner
     });
 
     itemToSave.save(function (err, item) {

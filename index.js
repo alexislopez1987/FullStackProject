@@ -5,6 +5,7 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 const routes = require('./api/routes/routes');
 const Item = require('./api/models/item');
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use(morgan('combined'));
 
 routes(app);
 

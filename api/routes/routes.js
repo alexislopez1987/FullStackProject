@@ -14,7 +14,7 @@ router.get('/user', function (req, res) {
     userController.list_all_users(req, res);
 })
 
-router.post('/user', function (req, res) {
+router.post('/register', function (req, res) {
     userController.save_user(req, res);
 })
 

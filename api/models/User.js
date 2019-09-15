@@ -22,6 +22,11 @@ var userSchema = new Schema({
         type: String,
         required: 'User last name is required',
         trim: true
+    },
+    password: {
+        type: String,
+        required: true,
+        min: 6
     }
 }, {
     toJSON: {
@@ -37,9 +42,9 @@ userSchema.virtual('fullName').get(function () {
 });
 
 userSchema.virtual('items', {
-    ref: 'Item', 
-    localField: '_id', 
-    foreignField: 'owner' 
+    ref: 'Item',
+    localField: '_id',
+    foreignField: 'owner'
 });
 
 function autopopulate(next) {

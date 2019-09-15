@@ -26,6 +26,10 @@ exports.save_user = async (req, res) => {
     const lastName = req.body.lastName;
     const password = req.body.password;
 
+    const emailExist = await User.findOne({email: email});
+    if (emailExist)
+        return res.status(400).send('Email already exists');
+    
     const userToSave = new User({
         name,
         email,

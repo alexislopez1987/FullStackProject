@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const routes = require('./api/routes/routes');
-
 require('./api/models/Item');
 require('./api/models/User');
+
+const routes = require('./api/routes/routes');
 
 const PORT = process.env.NODE_PORT || 8080;
 const HOST = '0.0.0.0';
@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 
-routes(app);
+app.use('/api/v1', routes);
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

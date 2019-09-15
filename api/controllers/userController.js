@@ -16,13 +16,13 @@ exports.list_all_users = function (req, res) {
     });
 };
 
-exports.save_user = async (req, res) => {
+exports.register = async (req, res) => {
 
     const {
         error
     } = validation.registerValidation(req.body);
     if (error)
-        return res.status(400).send(error.details[0].message);
+        return res.status(400).json(error.details[0].message);
 
     const email = req.body.email;
     const name = req.body.name;
@@ -33,7 +33,9 @@ exports.save_user = async (req, res) => {
         email: email
     });
     if (emailExist)
-        return res.status(400).send('Email already exists');
+        return res.status(400).json({
+            'error': 'Email already exists'
+        });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -47,11 +49,11 @@ exports.save_user = async (req, res) => {
 
     try {
         const savedUser = await userToSave.save();
-        res.send({
+        res.json({
             user: savedUser._id
         });
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).json(err);
     }
 
     /*
@@ -62,3 +64,29 @@ exports.save_user = async (req, res) => {
     });
     */
 };
+
+exports.login = async (req, res) => {
+    const {
+        error
+    } = validation.loginValidation(req.body);
+    if (error)
+        return res.status(400).json(error.details[0].message);
+
+    const user = await User.findOne({
+        email: req.body.email
+    });
+    if (!user)
+        return res.status(400).json({
+            'error': 'Email or password is wrong'
+        });
+
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass)
+        return res.status(400).json({
+            'error': 'Invalid password'
+        });
+
+    return res.json({
+        'message': 'Logged in'
+    });
+}

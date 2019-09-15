@@ -15,7 +15,11 @@ router.get('/user', function (req, res) {
 })
 
 router.post('/register', function (req, res) {
-    userController.save_user(req, res);
+    userController.register(req, res);
+})
+
+router.post('/login', function (req, res) {
+    userController.login(req, res);
 })
 
 router.get('/item', function (req, res) {

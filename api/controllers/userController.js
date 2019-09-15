@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
-const Joi = require('@hapi/joi');
+const validation = require('../models/validation');
 
 exports.list_all_users = function (req, res) {
     User.find({}).
@@ -15,16 +15,9 @@ exports.list_all_users = function (req, res) {
     });
 };
 
-const validationUserSchema = Joi.object({
-    name: Joi.string().min(5).required(),
-    lastName: Joi.string().min(5).required(),
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required()
-});
-
 exports.save_user = async (req, res) => {
 
-    const {error} = validationUserSchema.validate(req.body);
+    const {error} = validation.registerValidation(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);
 

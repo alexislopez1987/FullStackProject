@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
 const validation = require('../models/validation');
+const bcrypt = require('bcryptjs');
 
 exports.list_all_users = function (req, res) {
     User.find({}).
@@ -17,7 +18,9 @@ exports.list_all_users = function (req, res) {
 
 exports.save_user = async (req, res) => {
 
-    const {error} = validation.registerValidation(req.body);
+    const {
+        error
+    } = validation.registerValidation(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);
 
@@ -26,20 +29,27 @@ exports.save_user = async (req, res) => {
     const lastName = req.body.lastName;
     const password = req.body.password;
 
-    const emailExist = await User.findOne({email: email});
+    const emailExist = await User.findOne({
+        email: email
+    });
     if (emailExist)
         return res.status(400).send('Email already exists');
-    
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const userToSave = new User({
         name,
         email,
         lastName,
-        password
+        password: hashedPassword
     });
 
     try {
         const savedUser = await userToSave.save();
-        res.send(savedUser);
+        res.send({
+            user: savedUser._id
+        });
     } catch (err) {
         res.status(400).send(err);
     }

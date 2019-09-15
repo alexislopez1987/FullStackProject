@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "49160:8080"
+      - "9229:9229"
     volumes:
       - .:/usr/src/app
     links:

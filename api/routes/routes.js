@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express')
 var router = express.Router()
+const verifyToken = require('./verifyToken');
 
 var itemController = require('../controllers/itemController');
 var userController = require('../controllers/userController');
@@ -10,7 +11,8 @@ router.use(function timeLog(req, res, next) {
     next()
 })
 
-router.get('/user', function (req, res) {
+router.get('/user', verifyToken, function (req, res) {
+    console.log(req.user);
     userController.list_all_users(req, res);
 })
 

@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User');
 const validation = require('../models/validation');
 const bcrypt = require('bcryptjs');
+const jwt =  require('jsonwebtoken');
 
 exports.list_all_users = function (req, res) {
     User.find({}).
@@ -85,6 +86,9 @@ exports.login = async (req, res) => {
         return res.status(400).json({
             'error': 'Invalid password'
         });
+
+    const token = jwt.sign({ id: user._id}, process.env.TOKEN_SECRET);
+    res.header('auth-token', token);
 
     return res.json({
         'message': 'Logged in'

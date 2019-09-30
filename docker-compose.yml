@@ -1,5 +1,16 @@
 version: "3"
 services:
+  client:
+    container_name: react
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/app
+    links:
+      - app
   app:
     container_name: nodejs
     restart: always
@@ -8,7 +19,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "49160:8080"
-      - "9229:9229"
+      - "9229:9229" #debug
     volumes:
       - ./server:/usr/src/app
     links:

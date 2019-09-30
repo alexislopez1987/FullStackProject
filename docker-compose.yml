@@ -4,13 +4,13 @@ services:
     container_name: nodejs
     restart: always
     build:
-      context: ./
+      context: ./server
       dockerfile: Dockerfile
     ports:
       - "49160:8080"
       - "9229:9229"
     volumes:
-      - .:/usr/src/app
+      - ./server:/usr/src/app
     links:
       - mongo
   mongo:

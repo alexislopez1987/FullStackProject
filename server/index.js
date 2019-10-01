@@ -6,6 +6,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+var cors = require('cors');
+
+const app = express();
+app.use(cors());
 
 require('./api/models/Item');
 require('./api/models/User');
@@ -14,8 +18,6 @@ const routes = require('./api/routes/routes');
 
 const PORT = process.env.NODE_PORT || 8080;
 const HOST = '0.0.0.0';
-
-const app = express();
 
 mongoose.Promise = global.Promise;
 

@@ -7,7 +7,7 @@ function App() {
   useEffect(() => {
     console.log("inicio ajax");
   
-    fetch("http://app:49160/api/v1/item")
+    fetch("http://localhost:49160/api/v1/item")
     .then(res => res.json())
     .then(
       (result) => {

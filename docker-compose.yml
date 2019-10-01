@@ -11,9 +11,11 @@ services:
       - ./client:/usr/src/app
     links:
       - app
+    networks: 
+      - webappnetwork
   app:
     container_name: nodejs
-    restart: always
+    #restart: always
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -24,6 +26,8 @@ services:
       - ./server:/usr/src/app
     links:
       - mongo
+    networks: 
+      - webappnetwork
   mongo:
     container_name: mongo
     image: mongo
@@ -31,3 +35,8 @@ services:
       #- ./data:/data/db
     ports:
       - "27017:27017"
+    networks: 
+      - webappnetwork
+networks:
+  webappnetwork:
+    driver: bridge

@@ -24,6 +24,12 @@ router.post('/login', function (req, res) {
     userController.login(req, res);
 })
 
+router.get('/itemdetail', function (req, res) {
+    console.log("detalle item");
+    //console.log(req);
+    itemController.item_detail(req, res);
+})
+
 router.get('/item', function (req, res) {
     itemController.list_all_items(req, res);
 })

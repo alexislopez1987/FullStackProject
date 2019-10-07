@@ -32,3 +32,16 @@ exports.save_item = function (req, res) {
         res.json(item);
     });
 };
+
+exports.item_detail = function (req, res) {
+
+    const id = req.query.id;
+
+    Item.findById(id).
+    populate('owner', 'name lastName -_id').
+    exec(function (err, item) {
+        if (err)
+            res.send(err);
+        res.json(item);
+    });
+};

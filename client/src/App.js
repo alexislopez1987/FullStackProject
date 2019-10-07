@@ -1,42 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Button } from 'reactstrap';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Items from  './components/items/Items';
+import ItemDetail from './components/items/ItemDetail';
 import logo from './logo.svg';
-import './App.css';
+import Nav from './components/layout/Nav';
+import './App.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-
-  useEffect(() => {
-    console.log("inicio ajax");
-  
-    fetch("http://localhost:49160/api/v1/item")
-    .then(res => res.json())
-    .then(
-      (result) => {
-        console.log("respuesta ajax");
-        console.log(result);
-      },
-      (error) => {
-        console.error(error);
-      })
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <Nav />
+          </div>
+        </div>
+        
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/items" component={Items} />
+            <Route path="/item/:id" component={ItemDetail} />
+          </Switch>    
+      </div>
+    </Router>
   );
 }
+
+const Home = () => (
+  <div>
+    <h1>Home Page</h1>
+  </div>
+);
 
 export default App;

@@ -16,6 +16,8 @@ require('./api/models/User');
 
 const routes = require('./api/routes/routes');
 
+const loadData = require('./api/data/loadData');
+
 const PORT = process.env.NODE_PORT || 8080;
 const HOST = '0.0.0.0';
 
@@ -34,7 +36,8 @@ const options = {
 const connectWithRetry = () => {
   console.log('MongoDB connection with retry')
   mongoose.connect(`mongodb://${process.env.DBHOST}:${process.env.DBPORT}/PersonalFinancesDB`, options).then(() => {
-    console.log('MongoDB is connected')
+    console.log('MongoDB is connected');
+    loadData.loadData();
   }).catch(err => {
     console.error('ERROR!!!');
     console.error(err);

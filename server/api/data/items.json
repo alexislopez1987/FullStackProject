@@ -1,20 +1,20 @@
 [
     {
-        "name" : "",
+        "name" : "metallica ticket",
         "created": "",
-        "price": "",
-        "owner": ""
+        "price": "80000",
+        "owner": "alexis.lopez@gmail.com"
     },
     {
-        "name" : "",
+        "name" : "tool album",
         "created": "",
-        "price": "",
-        "owner": ""
+        "price": "50000",
+        "owner": "alexis.lopez@gmail.com"
     },
     {
-        "name" : "",
+        "name" : "beer 6 pack",
         "created": "",
-        "price": "",
-        "owner": ""
+        "price": "7000",
+        "owner": "juan.perez@gmail.com"
     }
 ]

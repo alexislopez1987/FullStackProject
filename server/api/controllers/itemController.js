@@ -35,7 +35,9 @@ exports.save_item = function (req, res) {
 
 exports.item_detail = function (req, res) {
 
-    const id = req.query.id;
+    const id = req.params.id;
+
+    console.log("id", id);
 
     Item.findById(id).
     populate('owner', 'name lastName -_id').

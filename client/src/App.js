@@ -1,17 +1,19 @@
 import React from 'react';
-import { Button } from 'reactstrap';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { Router, Switch, Route} from 'react-router-dom';
+import { createBrowserHistory } from "history";
 import Items from  './components/items/Items';
 import ItemDetail from './components/items/ItemDetail';
 import GenericNotFound from './components/layout/GenericNotFound';
-import logo from './logo.svg';
 import Nav from './components/layout/Nav';
 import './App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
+  const history = createBrowserHistory();
+
   return (
-    <Router>
+    <Router history={history}>
       <div className="container">
         <div className="row">
           <div className="col">

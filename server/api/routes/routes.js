@@ -24,7 +24,7 @@ router.post('/login', function (req, res) {
     userController.login(req, res);
 })
 
-router.get('/itemdetail', function (req, res) {
+router.get('/itemdetail/:id', function (req, res) {
     console.log("detalle item");
     //console.log(req);
     itemController.item_detail(req, res);

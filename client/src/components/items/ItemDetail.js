@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../utils/API';
+import { Button } from 'reactstrap';
+import { withRouter } from "react-router";
 
-function ItemDetail({match}) {
+function ItemDetail(props) {
 
     const [item,  setItem] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(match);
+    console.log(props);
     useEffect(() => {
         
-        API.get(`/itemdetail?id=${match.params.id}`)
+        API.get(`/itemdetail/${props.match.params.id}`)
         .then(function (response) {
             console.log(response);
             setItem(response.data);
@@ -37,10 +39,10 @@ function ItemDetail({match}) {
         <div className="row">
             <div className="col">
                 <h1>{item.name}</h1>
-                <button onClick={() => match.goBack()}>Back</button>
+                <Button outline color="primary" onClick={() => props.history.goBack()}>Back</Button>
             </div>
         </div>
     );
 }
 
-export default ItemDetail;
+export default withRouter(ItemDetail);

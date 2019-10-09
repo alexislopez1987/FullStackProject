@@ -1,0 +1,20 @@
+[
+    {
+        "name" : "metallica ticket",
+        "created": "",
+        "price": "80000",
+        "owner": "alexis.lopez@gmail.com"
+    },
+    {
+        "name" : "tool album",
+        "created": "",
+        "price": "50000",
+        "owner": "alexis.lopez@gmail.com"
+    },
+    {
+        "name" : "beer 6 pack",
+        "created": "",
+        "price": "7000",
+        "owner": "juan.perez@gmail.com"
+    }
+]

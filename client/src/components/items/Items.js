@@ -11,7 +11,6 @@ function Items() {
         
         API.get('item')
         .then(function (response) {
-            console.log(response);
             setItems(response.data);
         })
         .catch(function (error) {

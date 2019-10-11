@@ -87,7 +87,19 @@ exports.login = async (req, res) => {
             'error': 'Invalid password'
         });
 
-    const token = jwt.sign({ id: user._id}, process.env.TOKEN_SECRET);
+    const minutes = 2 * 60; 
+    const payload = {
+        user : {
+            id: user._id
+        }
+    };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: minutes
+    }, (err, token) => {
+        if (err) {
+            throw err;
+        }
+    });
     res.header('auth-token', token);
 
     return res.json({

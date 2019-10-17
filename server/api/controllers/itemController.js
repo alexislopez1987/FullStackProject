@@ -42,8 +42,14 @@ exports.item_detail = function (req, res) {
     Item.findById(id).
     populate('owner', 'name lastName -_id').
     exec(function (err, item) {
-        if (err)
-            res.send(err);
+        if (err){
+            if (err.kind == 'ObjectId') {
+                res.json({});
+            } else {
+                res.send(err);
+            }
+        }
+            
         res.json(item);
     });
 };

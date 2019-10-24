@@ -53,3 +53,17 @@ exports.item_detail = function (req, res) {
         res.json(item);
     });
 };
+
+exports.delete = async (req, res) => {
+    const id = req.params.id;
+    try {       
+        const query = await Item.findOneAndRemove({ _id: id });
+        res.json({msg: `item ${id} deleted`});
+    } catch (err) {
+        console.error('error delete', err);
+        if (err.kind == 'ObjectId') {
+            res.status(500).json({'error': `invalid id ${id}`});
+        }
+        res.status(500).json({'error': `item ${id} can't be deleted`});
+    }
+};

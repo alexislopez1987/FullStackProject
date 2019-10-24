@@ -70,4 +70,8 @@ router.post('/item', function (req, res) {
     itemController.save_item(req, res);
 })
 
+router.delete('/item/:id', (req, res) => {
+    itemController.delete(req, res);
+})
+
 module.exports = router

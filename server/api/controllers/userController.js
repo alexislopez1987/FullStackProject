@@ -98,11 +98,12 @@ exports.login = async (req, res) => {
     }, (err, token) => {
         if (err) {
             throw err;
-        }
-    });
-    res.header('auth-token', token);
+        } else {
+            res.header('auth-token', token);
 
-    return res.json({
-        'message': 'Logged in'
+            return res.json({
+                'message': 'Logged in'
+            });
+        }
     });
 }

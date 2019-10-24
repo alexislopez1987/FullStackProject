@@ -52,7 +52,7 @@ function autopopulate(next) {
     next();
 }
 
-userSchema.pre('find', autopopulate);
-userSchema.pre('findOne', autopopulate);
+//userSchema.pre('find', autopopulate);
+//userSchema.pre('findOne', autopopulate);
 
 module.exports = mongoose.model('User', userSchema);

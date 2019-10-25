@@ -5,6 +5,7 @@ import Items from  './components/items/Items';
 import ItemDetail from './components/items/ItemDetail';
 import GenericNotFound from './components/layout/GenericNotFound';
 import Nav from './components/layout/Nav';
+import Register from './components/register/Register';
 import './App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/items" component={Items} />
             <Route path="/item/:id" component={ItemDetail} />
+            <Route path="/register" exact component={Register} />
             <Route component={GenericNotFound}/> 
           </Switch>    
       </div>

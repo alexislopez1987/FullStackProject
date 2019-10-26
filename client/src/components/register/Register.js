@@ -3,7 +3,7 @@ import API from '../../utils/API';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
 import qs from 'querystring';
 
-const Register = () => {
+const Register = (props) => {
 
     const [formData, setFormData] = useState({
         name: '',
@@ -42,7 +42,7 @@ const Register = () => {
                 console.log('resp', resp);
                 ToastsStore.success("User signed up")
                 clearFormData();
-
+                redirect();
             } catch (err) {
                 ToastsStore.error("Error " + err.response.data);
                 console.log('config', err.config);
@@ -63,6 +63,12 @@ const Register = () => {
             password: '',
             password2: ''
         });
+    }
+
+    const redirect = () => {
+        setTimeout(() => 
+            props.history.push('/login'), 2000 
+        );
     }
 
     return (

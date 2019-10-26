@@ -9,7 +9,12 @@ const morgan = require('morgan');
 var cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  exposedHeaders: 'auth-token',
+};
+
+app.use(cors(corsOptions));
 
 require('./api/models/Item');
 require('./api/models/User');

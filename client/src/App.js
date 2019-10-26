@@ -9,30 +9,34 @@ import Register from './components/register/Register';
 import Login from './components/login/Login';
 import './App.css';   
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
 
   const history = createBrowserHistory();
 
   return (
-    <Router history={history}>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Nav />
+    <Provider store={store}>
+        <Router history={history}>
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <Nav />
+              </div>
+            </div>
+          
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/items" component={Items} />
+              <Route path="/item/:id" component={ItemDetail} />
+              <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
+              <Route component={GenericNotFound}/> 
+            </Switch>    
           </div>
-        </div>
-        
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/items" component={Items} />
-            <Route path="/item/:id" component={ItemDetail} />
-            <Route path="/register" exact component={Register} />
-            <Route path="/login" exact component={Login} />
-            <Route component={GenericNotFound}/> 
-          </Switch>    
-      </div>
-    </Router>
+      </Router>
+    </Provider>
   );
 }
 

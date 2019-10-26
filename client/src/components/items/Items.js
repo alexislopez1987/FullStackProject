@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import API from "./../../utils/API";
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-function Items() {
+function Items(props) {
 
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,16 @@ function Items() {
         });
 
     }, []);
+
+    if (props.isAuthenticated === false) {
+        return(
+            <div className="row">
+                <div className="col">
+                    You are not log in
+                </div>
+            </div>         
+        );
+    }
 
     if (isLoading) {
         return (
@@ -45,6 +56,7 @@ function Items() {
     }
 
     return (
+
         <div className="row">
             <div className="col">
                 <table className="table table-striped table-hover">
@@ -72,4 +84,8 @@ function Items() {
     );
 }
 
-export default Items;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Items);

@@ -3,6 +3,8 @@ import API from '../../utils/API';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
 import qs from 'querystring';
 import { withRouter } from "react-router";
+import { connect } from 'react-redux';
+import { successLogin, failLogin  } from './../../actions/auth';
 
 const Login = (props) => {
 
@@ -17,7 +19,6 @@ const Login = (props) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-
         try {
 
             const user = {
@@ -32,11 +33,13 @@ const Login = (props) => {
             }
 
             const resp = await API.post('/login', qs.stringify(user), config);
-            ToastsStore.success("User Logged in")
+            ToastsStore.success("User Logged in")            
+            props.successLogin(resp.headers["auth-token"], {email: user.email});
             clearFormData();
             redirect();
         } catch (err) {
             ToastsStore.error("Error " + err.response.data.error);
+            props.failLogin();
         }
     }
 
@@ -88,4 +91,4 @@ const Login = (props) => {
     );
 }
 
-export default withRouter(Login);
+export default withRouter(connect(null, {successLogin, failLogin})(Login));

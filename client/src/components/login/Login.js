@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import API from '../../utils/API';
-import qs from 'querystring';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
-import { successLogin, failLogin  } from './../../actions/auth';
+import { Redirect } from 'react-router-dom';
+import { login  } from './../../actions/auth';
 
 const Login = (props) => {
 
@@ -18,40 +17,12 @@ const Login = (props) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        try {
 
-            const user = {
-                email,
-                password
-            };
-
-            const config = {
-                headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }
-
-            const resp = await API.post('/login', qs.stringify(user), config);         
-            props.successLogin(resp.headers["auth-token"], {email: user.email});
-            clearFormData();
-            redirect();
-        } catch (err) {
-            props.failLogin();
-        }
+        props.login(email, password);
     }
 
-    const clearFormData = () => {
-        setFormData({ 
-            ...formData, 
-            email: '',
-            password: ''
-        });
-    }
-
-    const redirect = () => {
-        setTimeout(() => 
-            props.history.push('/items'), 2000 
-        );
+    if (props.isAuthenticated === true) {
+        return <Redirect to='/items' />;
     }
 
     return (
@@ -87,4 +58,8 @@ const Login = (props) => {
     );
 }
 
-export default withRouter(connect(null, {successLogin, failLogin})(Login));
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default withRouter(connect(mapStateToProps, { login })(Login));

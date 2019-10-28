@@ -16,17 +16,11 @@ function Alerts(props) {
             default:
                 console.log("default alert");
         }
-
-        return (
-            <Fragment>
-                <ToastsContainer store={ToastsStore}/>
-            </Fragment>
-        );
     }
 
     return (
         <Fragment>
-            { null }
+            <ToastsContainer store={ToastsStore}/>
         </Fragment>
     );
 }

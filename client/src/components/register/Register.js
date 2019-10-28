@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import API from '../../utils/API';
-import {ToastsContainer, ToastsStore} from 'react-toasts';
 import qs from 'querystring';
 
 const Register = (props) => {
@@ -21,7 +20,7 @@ const Register = (props) => {
         e.preventDefault();
 
         if (password !== password2) {
-            ToastsStore.error("Passwords don't match")
+            
         } else {
             const newUser = {
                 email,
@@ -40,11 +39,9 @@ const Register = (props) => {
 
                 const resp = await API.post('/register', qs.stringify(newUser), config);
                 console.log('resp', resp);
-                ToastsStore.success("User signed up")
                 clearFormData();
                 redirect();
             } catch (err) {
-                ToastsStore.error("Error " + err.response.data);
                 console.log('config', err.config);
                 console.log('request', err.request);
                 console.log('response', err.response);
@@ -136,8 +133,6 @@ const Register = (props) => {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-
-            <ToastsContainer store={ToastsStore}/>
 
         </Fragment>
     );

@@ -1,17 +1,22 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { ToastsContainer, ToastsStore } from 'react-toasts';
 import { SUCCESS, ERROR } from './../../utils/alertTypes';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Alerts(props) {
 
     if (props.message !== '') {
         switch (props.alertType) {
             case SUCCESS:  
-                ToastsStore.success(props.message);
+                toast.success(props.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
                 break;
             case ERROR:  
-                ToastsStore.error("Error: " + props.message);
+                toast.error("Error: " + props.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
                 break;
             default:
                 console.log("default alert");
@@ -20,7 +25,7 @@ function Alerts(props) {
 
     return (
         <Fragment>
-            <ToastsContainer store={ToastsStore}/>
+            <ToastContainer autoClose={3000} />
         </Fragment>
     );
 }

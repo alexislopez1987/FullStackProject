@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import API from '../../utils/API';
 import qs from 'querystring';
+import { connect } from 'react-redux';
+import { sendAlert } from './../../actions/alerts';
+import { ERROR } from './../../utils/alertTypes';
 
 const Register = (props) => {
 
@@ -20,7 +23,7 @@ const Register = (props) => {
         e.preventDefault();
 
         if (password !== password2) {
-            
+            props.sendAlert("Passwords don't match", ERROR);
         } else {
             const newUser = {
                 email,
@@ -138,4 +141,4 @@ const Register = (props) => {
     );
 }
 
-export default Register;
+export default connect(null, { sendAlert })(Register);

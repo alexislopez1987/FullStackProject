@@ -7,6 +7,7 @@ import GenericNotFound from './components/layout/GenericNotFound';
 import Nav from './components/layout/Nav';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
+import Alerts from './components/layout/Alerts';
 import './App.css';   
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
@@ -19,6 +20,7 @@ function App() {
   return (
     <Provider store={store}>
         <Router history={history}>
+          <Alerts />
           <div className="container">
             <div className="row">
               <div className="col">

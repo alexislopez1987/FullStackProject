@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import API from '../../utils/API';
-import {ToastsContainer, ToastsStore} from 'react-toasts';
 import qs from 'querystring';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
@@ -32,13 +31,11 @@ const Login = (props) => {
                 }
             }
 
-            const resp = await API.post('/login', qs.stringify(user), config);
-            ToastsStore.success("User Logged in")            
+            const resp = await API.post('/login', qs.stringify(user), config);         
             props.successLogin(resp.headers["auth-token"], {email: user.email});
             clearFormData();
             redirect();
         } catch (err) {
-            ToastsStore.error("Error " + err.response.data.error);
             props.failLogin();
         }
     }
@@ -86,7 +83,6 @@ const Login = (props) => {
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
-            <ToastsContainer store={ToastsStore}/>
         </Fragment>
     );
 }

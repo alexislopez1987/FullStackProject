@@ -46,8 +46,6 @@ router.post('/login', function (req, res) {
 })
 
 router.get('/itemdetail/:id', function (req, res) {
-    console.log("detalle item");
-    //console.log(req);
     itemController.item_detail(req, res);
 })
 
@@ -64,6 +62,10 @@ router.get('/itemdetail/:id', function (req, res) {
  */
 router.get('/item', function (req, res) {
     itemController.list_all_items(req, res);
+})
+
+router.get('/item/:userId', function (req, res) {
+    itemController.list_by_user(req, res);
 })
 
 router.post('/item', function (req, res) {

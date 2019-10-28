@@ -14,6 +14,20 @@ exports.list_all_items = function (req, res) {
     });
 };
 
+exports.list_by_user = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const items = await Item.find({ owner: userId });
+        res.json(items);
+    } catch (err) {
+        if (err.kind == 'ObjectId') {
+            res.status(500).json({'error': `invalid user ${userId}`});
+        }
+        res.status(500).json({'error': `items can't be got `});
+    }
+};
+
 exports.save_item = function (req, res) {
 
     const name = req.body.name;

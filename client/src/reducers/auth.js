@@ -1,4 +1,4 @@
-import { SUCCESS_LOGIN, FAIL_LOGIN } from '../actions/types';
+import { SUCCESS_LOGIN, FAIL_LOGIN, RELOAD_USER } from '../actions/types';
 
 const initialState = { 
     token: localStorage.getItem('token'),
@@ -27,6 +27,13 @@ export default function(state = initialState, action) {
                 isAuthenticated: false,
                 loading: false,
                 user: null
+            };
+        case RELOAD_USER:
+            return {
+                ...state,
+                token: payload.token,
+                isAuthenticated: true,
+                loading: false
             };
         default: 
             return state;

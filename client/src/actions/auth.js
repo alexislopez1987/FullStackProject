@@ -1,8 +1,9 @@
-import { SUCCESS_LOGIN, FAIL_LOGIN } from './types';
+import { SUCCESS_LOGIN, FAIL_LOGIN, RELOAD_USER } from './types';
 import { sendAlert } from './alerts';
 import { SUCCESS, ERROR } from './../utils/alertTypes';
 import API from './../utils/API';
 import qs from 'querystring';
+import setAuthTokenToReqApi from './../utils/setAuthTokenToReqApi';
 
 export const login = (email, password) => async dispatch => {
 
@@ -46,4 +47,12 @@ export const failLogin = () => dispatch => {
     });
 
     dispatch(sendAlert('Error in login', ERROR));
+}
+
+export const reloadUser = (token) => dispatch => {
+    setAuthTokenToReqApi(token);
+    dispatch({
+        type: RELOAD_USER,
+        payload : { token }
+    });
 }

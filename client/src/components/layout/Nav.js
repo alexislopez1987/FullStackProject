@@ -1,8 +1,19 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logout } from './../../actions/auth';
+import { withRouter } from "react-router";
 
 const Nav = (props) => {
+
+    const aStyle = {
+        cursor: 'pointer'
+    };
+
+    const clickHandler = (e) =>{
+        props.logout();
+        props.history.push("/");
+    }
 
     const guestLinks = (
         <Fragment>
@@ -23,6 +34,9 @@ const Nav = (props) => {
             <li className="nav-item">
                 <Link to="/items" className="nav-link">Items</Link>
             </li>   
+            <li className="nav-item">
+                <a className="nav-link" style={aStyle} onClick={e => clickHandler(e)} >Logout</a>
+            </li>   
         </Fragment>       
     );
 
@@ -39,4 +53,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(Nav);
+export default withRouter(connect(mapStateToProps, { logout })(Nav));

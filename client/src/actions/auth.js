@@ -1,4 +1,4 @@
-import { SUCCESS_LOGIN, FAIL_LOGIN, RELOAD_USER } from './types';
+import { SUCCESS_LOGIN, FAIL_LOGIN, RELOAD_USER, LOGOUT } from './types';
 import { sendAlert } from './alerts';
 import { SUCCESS, ERROR } from './../utils/alertTypes';
 import API from './../utils/API';
@@ -37,7 +37,7 @@ export const successLogin = (token, user) => dispatch => {
         type: SUCCESS_LOGIN,
         payload : { token, user } 
     });
-
+    setAuthTokenToReqApi(token);
     dispatch(sendAlert('User Logged in', SUCCESS));
 }
 
@@ -45,7 +45,7 @@ export const failLogin = () => dispatch => {
     dispatch({
         type: FAIL_LOGIN
     });
-
+    setAuthTokenToReqApi();
     dispatch(sendAlert('Error in login', ERROR));
 }
 
@@ -56,3 +56,12 @@ export const reloadUser = (token) => dispatch => {
         payload : { token }
     });
 }
+
+export const logout = () => dispatch => {
+    dispatch({ 
+        type: LOGOUT 
+    });
+
+    setAuthTokenToReqApi();
+    dispatch(sendAlert('User logout', SUCCESS));
+};

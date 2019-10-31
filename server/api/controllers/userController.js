@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
             'error': 'Invalid password'
         });
 
-    const minutes = 2 * 60; 
+    const minutes = 10 * 60; 
     const payload = {
         user : {
             id: user._id
@@ -100,6 +100,7 @@ exports.login = async (req, res) => {
             throw err;
         } else {
             res.header('auth-token', token);
+            res.header('expiresIn', minutes);
 
             return res.json({
                 'message': 'Logged in'

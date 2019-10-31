@@ -11,7 +11,7 @@ var cors = require('cors');
 const app = express();
 
 const corsOptions = {
-  exposedHeaders: 'auth-token',
+  exposedHeaders:  ['auth-token', 'expiresIn']
 };
 
 app.use(cors(corsOptions));

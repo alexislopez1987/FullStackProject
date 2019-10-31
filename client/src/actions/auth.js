@@ -5,7 +5,7 @@ import API from './../utils/API';
 import qs from 'querystring';
 import setAuthTokenToReqApi from './../utils/setAuthTokenToReqApi';
 
-export const login = (email, password) => async dispatch => {
+export const login = (email, password, history) => async dispatch => {
 
     try {
 
@@ -27,8 +27,14 @@ export const login = (email, password) => async dispatch => {
             { email: user.email }
         ));
 
+        const miliseconds = parseInt(resp.headers["expiresin"]) * 1000;
+        
+        setTimeout(() => 
+            dispatch(tokenExpired(history)), miliseconds
+        );
+
     } catch (err) {
-        dispatch(failLogin());
+        dispatch(failLogin(err.response.data.error));
     }
 }
 
@@ -41,12 +47,17 @@ export const successLogin = (token, user) => dispatch => {
     dispatch(sendAlert('User Logged in', SUCCESS));
 }
 
-export const failLogin = () => dispatch => {
+export const failLogin = (errorMessage) => dispatch => {
     dispatch({
         type: FAIL_LOGIN
     });
     setAuthTokenToReqApi();
-    dispatch(sendAlert('Error in login', ERROR));
+
+    if (errorMessage !== '') {
+        dispatch(sendAlert(errorMessage, ERROR));
+    }else {
+        dispatch(sendAlert('Error in login', ERROR));
+    } 
 }
 
 export const reloadUser = (token) => dispatch => {
@@ -64,4 +75,10 @@ export const logout = () => dispatch => {
 
     setAuthTokenToReqApi();
     dispatch(sendAlert('User logout', SUCCESS));
+};
+
+export const tokenExpired = (history) => dispatch => {
+    dispatch(logout());
+    dispatch(sendAlert('Token expired', SUCCESS));
+    history.push("/");
 };

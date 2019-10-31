@@ -3,6 +3,7 @@ import API from "./../../utils/API";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
+import Spinner from './../layout/Spinner';
 
 function Items(props) {
 
@@ -35,13 +36,7 @@ function Items(props) {
     }
 
     if (isLoading || (!props.user && !props.user.id)) {
-        return (
-            <div className="row">
-                <div className="col">
-                    Loading...
-                </div>
-            </div>         
-        );
+        return <Spinner />;
     }
 
     if (!isLoading && items.length === 0) {

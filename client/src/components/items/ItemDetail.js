@@ -8,12 +8,10 @@ function ItemDetail(props) {
     const [item,  setItem] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(props);
     useEffect(() => {
         
         API.get(`/itemdetail/${props.match.params.id}`)
         .then(function (response) {
-            console.log(response);
             setItem(response.data);
         })
         .catch(function (error) {

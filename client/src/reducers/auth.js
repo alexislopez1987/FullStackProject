@@ -33,7 +33,9 @@ export default function(state = initialState, action) {
         case RELOAD_USER:
             return {
                 ...state,
+                ...state.user,
                 token: payload.token,
+                user: payload.user,
                 isAuthenticated: true,
                 loading: false
             };

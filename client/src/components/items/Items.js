@@ -22,6 +22,7 @@ function Items(props) {
                 setIsLoading(false);
             });
         } else {
+            console.log("user items", props.user);
             props.history.push("/");
         }
     }, []);

@@ -32,9 +32,13 @@ router.use(function timeLog(req, res, next) {
     next()
 })
 
-router.get('/user', verifyToken, function (req, res) {
-    console.log(req.user);
+router.get('/users', verifyToken, function (req, res) {
     userController.list_all_users(req, res);
+})
+
+router.get('/user', verifyToken, function (req, res) {
+    console.log("get user by id", req.user);
+    userController.user_by_id(req, res);
 })
 
 router.post('/register', function (req, res) {
@@ -43,10 +47,6 @@ router.post('/register', function (req, res) {
 
 router.post('/login', function (req, res) {
     userController.login(req, res);
-})
-
-router.get('/itemdetail/:id', function (req, res) {
-    itemController.item_detail(req, res);
 })
 
 /**
@@ -70,6 +70,10 @@ router.get('/item/:userId', function (req, res) {
 
 router.post('/item', function (req, res) {
     itemController.save_item(req, res);
+})
+
+router.get('/itemdetail/:id', function (req, res) {
+    itemController.item_detail(req, res);
 })
 
 router.delete('/item/:id', (req, res) => {

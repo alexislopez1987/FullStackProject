@@ -60,12 +60,25 @@ export const failLogin = (errorMessage) => dispatch => {
     } 
 }
 
-export const reloadUser = (token) => dispatch => {
-    setAuthTokenToReqApi(token);
-    dispatch({
-        type: RELOAD_USER,
-        payload : { token }
-    });
+export const reloadUser = (token) => async dispatch => {
+
+    try {
+        setAuthTokenToReqApi(token);
+        const resp = await API.get('user');
+
+        dispatch({
+            type: RELOAD_USER,
+            payload : { token, user: resp.data }
+        });
+
+    } catch (err) {
+        dispatch({ 
+            type: LOGOUT 
+        });
+    
+        setAuthTokenToReqApi();
+        dispatch(sendAlert(err.response.data.error, ERROR));
+    }
 }
 
 export const logout = () => dispatch => {

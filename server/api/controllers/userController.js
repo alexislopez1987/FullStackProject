@@ -102,13 +102,30 @@ exports.login = async (req, res) => {
         } else {
             res.header('auth-token', token);
             res.header('expiresIn', minutes);
-
-            let finalUser = user.toObject();
-            delete finalUser.password; 
-            delete finalUser.__v;
-            delete finalUser._id;
-            delete finalUser.fullName;
-            return res.json(finalUser);
+            return res.json(getObjectUser(user));
         }
     });
+}
+
+exports.user_by_id = async (req, res) => {
+    const userId = req.user.id;
+    try {  
+        const user = await User.findById(userId);
+        res.json(getObjectUser(user));
+    } catch (err) {
+        if (err.kind == 'ObjectId') {
+            res.status(500).json({'error': `invalid user ${userId}`});
+        }
+        res.status(500).json({'error': `user can't be got`});
+    }
+}
+
+const getObjectUser = (mongoUser) => {
+    let user = mongoUser.toObject();
+    delete user.password; 
+    delete user.__v;
+    delete user._id;
+    delete user.fullName;
+
+    return user;
 }

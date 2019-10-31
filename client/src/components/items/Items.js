@@ -21,11 +21,8 @@ function Items(props) {
             .finally(function () {
                 setIsLoading(false);
             });
-        } else {
-            console.log("user items", props.user);
-            props.history.push("/");
         }
-    }, []);
+    }, [props.user]);
 
     if (props.isAuthenticated === false) {
         return(
@@ -37,7 +34,7 @@ function Items(props) {
         );
     }
 
-    if (isLoading) {
+    if (isLoading || (!props.user && !props.user.id)) {
         return (
             <div className="row">
                 <div className="col">

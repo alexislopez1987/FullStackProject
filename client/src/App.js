@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Router, Switch, Route} from 'react-router-dom';
 import { createBrowserHistory } from "history";
 import Items from  './components/items/Items';
@@ -8,25 +8,20 @@ import Nav from './components/layout/Nav';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
 import Alerts from './components/layout/Alerts';
+import Reload from './components/layout/Reload'
 import './App.css';   
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './store';
-import { reloadUser } from './actions/auth';
 
 function App() {
 
   const history = createBrowserHistory();
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      store.dispatch(reloadUser(localStorage.getItem("token")));
-    }
-  }, []);
-
   return (
     <Provider store={store}>
         <Router history={history}>
+          <Reload />
           <Alerts />
           <div className="container">
             <div className="row">

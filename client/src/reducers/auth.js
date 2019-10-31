@@ -15,7 +15,9 @@ export default function(state = initialState, action) {
             localStorage.setItem('token', payload.token);
             return {
                 ...state, 
-                ...payload,
+                ...state.user,
+                token: payload.token,
+                user : payload.user,
                 isAuthenticated: true,
                 loading: false
             };
@@ -39,6 +41,7 @@ export default function(state = initialState, action) {
             localStorage.removeItem('token');
             return {
                 ...state,
+                user: null,
                 token: null,
                 isAuthenticated: false,
                 loading: false

@@ -76,6 +76,7 @@ exports.login = async (req, res) => {
     const user = await User.findOne({
         email: req.body.email
     });
+
     if (!user)
         return res.status(400).json({
             'error': 'Email or password is wrong'
@@ -102,9 +103,12 @@ exports.login = async (req, res) => {
             res.header('auth-token', token);
             res.header('expiresIn', minutes);
 
-            return res.json({
-                'message': 'Logged in'
-            });
+            let finalUser = user.toObject();
+            delete finalUser.password; 
+            delete finalUser.__v;
+            delete finalUser._id;
+            delete finalUser.fullName;
+            return res.json(finalUser);
         }
     });
 }

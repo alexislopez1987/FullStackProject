@@ -18,7 +18,7 @@ exports.list_by_user = async (req, res) => {
     const userId = req.params.userId;
 
     try {
-        const items = await Item.find({ owner: userId });
+        const items = await Item.find({ owner: userId }).populate('owner', 'name lastName -_id');
         res.json(items);
     } catch (err) {
         if (err.kind == 'ObjectId') {

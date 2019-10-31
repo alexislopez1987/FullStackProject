@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import API from "./../../utils/API";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
 
 function Items(props) {
 
@@ -9,18 +10,20 @@ function Items(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        
-        API.get('item')
-        .then(function (response) {
-            setItems(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .finally(function () {
-            setIsLoading(false);
-        });
-
+        if (props.user && props.user.id) {
+            API.get('item/' + props.user.id)
+            .then(function (response) {
+                setItems(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                setIsLoading(false);
+            });
+        } else {
+            props.history.push("/");
+        }
     }, []);
 
     if (props.isAuthenticated === false) {
@@ -85,7 +88,8 @@ function Items(props) {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 });
 
-export default connect(mapStateToProps)(Items);
+export default withRouter(connect(mapStateToProps)(Items));

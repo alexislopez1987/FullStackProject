@@ -24,7 +24,7 @@ export const login = (email, password, history) => async dispatch => {
 
         dispatch(successLogin(
             resp.headers["auth-token"], 
-            { email: user.email }
+            resp.data
         ));
 
         const miliseconds = parseInt(resp.headers["expiresin"]) * 1000;

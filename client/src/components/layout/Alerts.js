@@ -14,7 +14,7 @@ function Alerts(props) {
                 });
                 break;
             case ERROR:  
-                toast.error("Error: " + props.message, {
+                toast.error(props.message, {
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
                 break;

@@ -54,22 +54,26 @@ function Items(props) {
         return <Spinner />;
     }
 
+    const textSearch = (
+        <div className="row">
+            <div className="col">
+                <input type="text" 
+                        className="form-control" 
+                        id="nameSearch" 
+                        name="nameSearch"
+                        value={nameSearch}
+                        placeholder="Search"
+                        onChange={e => onChange(e)}
+                        >
+                </input>
+            </div>
+        </div>
+    );
+
     if (!isLoading && items.length === 0) {
         return (
             <Fragment>
-                <div className="row">
-                    <div className="col">
-                        <input type="text" 
-                                className="form-control" 
-                                id="nameSearch" 
-                                name="nameSearch"
-                                value={nameSearch}
-                                placeholder="Search"
-                                onChange={e => onChange(e)}
-                                >
-                        </input>
-                    </div>
-                </div>
+                { textSearch }
                 <div className="row">
                     <div className="col">
                         <div className="alert alert-warning" role="alert">
@@ -83,19 +87,7 @@ function Items(props) {
 
     return (
         <Fragment>
-            <div className="row">
-                <div className="col">
-                    <input type="text" 
-                            className="form-control" 
-                            id="nameSearch" 
-                            name="nameSearch"
-                            value={nameSearch}
-                            placeholder="Search"
-                            onChange={e => onChange(e)}
-                            >
-                    </input>
-                </div>
-            </div>
+            { textSearch }
             <div className="row">
                 <div className="col">
                     <table className="table table-striped table-hover">

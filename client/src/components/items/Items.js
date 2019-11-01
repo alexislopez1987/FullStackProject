@@ -10,7 +10,7 @@ function Items(props) {
 
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [pageCount, setPageCount] = useState(3); //TODO
+    const [pageCount, setPageCount] = useState(0);
     const [page, setPage] = useState(0);
     const limit = props.limit || 2;
 
@@ -18,8 +18,8 @@ function Items(props) {
         if (props.user && props.user.id) {
             API.get(`item/${props.user.id}?page=${page}&limit=${limit}`)
             .then(function (response) {
-                setItems(response.data);
-                //TODO setPageCount(Math.ceil(data.total_count / limit));
+                setItems(response.data.items);
+                setPageCount(Math.ceil(response.data.cont / limit));
             })
             .catch(function (error) {
                 console.log(error);

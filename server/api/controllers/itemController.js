@@ -27,7 +27,10 @@ exports.list_by_user = async (req, res) => {
                                 .skip(page * limit)
                                 .limit(limit)
                                 .sort({ created: -1 });
-        res.json(items);
+
+        const cont = await Item.countDocuments({owner: userId});
+
+        res.json({items, cont});
     } catch (err) {
         if (err.kind == 'ObjectId') {
             res.status(500).json({'error': `invalid user ${userId}`});

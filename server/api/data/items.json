@@ -12,6 +12,24 @@
         "owner": "alexis.lopez@gmail.com"
     },
     {
+        "name" : "king crimson ticket",
+        "created": "",
+        "price": "25000",
+        "owner": "alexis.lopez@gmail.com"
+    },
+    {
+        "name" : "ceviche",
+        "created": "",
+        "price": "12000",
+        "owner": "alexis.lopez@gmail.com"
+    },
+    {
+        "name" : "guitarra",
+        "created": "",
+        "price": "130000",
+        "owner": "alexis.lopez@gmail.com"
+    },
+    {
         "name" : "beer 6 pack",
         "created": "",
         "price": "7000",

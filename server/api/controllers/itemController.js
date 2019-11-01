@@ -18,12 +18,21 @@ exports.list_by_user = async (req, res) => {
     const userId = req.params.userId;
 
     try {
-        const items = await Item.find({ owner: userId }).populate('owner', 'name lastName -_id');
+
+        let page = parseInt(req.query.page) || 0;
+        let limit = parseInt(req.query.limit) || 2;
+
+        const items = await Item.find({ owner: userId })
+                                .populate('owner', 'name lastName -_id')
+                                .skip(page * limit)
+                                .limit(limit)
+                                .sort({ created: -1 });
         res.json(items);
     } catch (err) {
         if (err.kind == 'ObjectId') {
             res.status(500).json({'error': `invalid user ${userId}`});
         }
+        console.log("item error", err);
         res.status(500).json({'error': `items can't be got `});
     }
 };

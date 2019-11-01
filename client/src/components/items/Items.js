@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import API from "./../../utils/API";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,10 +13,11 @@ function Items(props) {
     const [pageCount, setPageCount] = useState(0);
     const [page, setPage] = useState(0);
     const limit = props.limit || 2;
+    const [nameSearch, setNameSearch] = useState('');
 
     useEffect(() => {
         if (props.user && props.user.id) {
-            API.get(`item/${props.user.id}?page=${page}&limit=${limit}`)
+            API.get(`item/${props.user.id}?page=${page}&limit=${limit}&search=${nameSearch}`)
             .then(function (response) {
                 setItems(response.data.items);
                 setPageCount(Math.ceil(response.data.cont / limit));
@@ -28,11 +29,15 @@ function Items(props) {
                 setIsLoading(false);
             });
         }
-    }, [props.user, page]);
+    }, [props.user, page, nameSearch]);
 
     const handlePageClick = (data) => {
         let pageSelected = data.selected;
         setPage(pageSelected);
+    }
+
+    const onChange = e => {
+        setNameSearch(e.target.value);
     }
 
     if (props.isAuthenticated === false) {
@@ -51,61 +56,90 @@ function Items(props) {
 
     if (!isLoading && items.length === 0) {
         return (
-            <div className="row">
-                <div className="col">
-                    <div className="alert alert-warning" role="alert">
-                        No items found
+            <Fragment>
+                <div className="row">
+                    <div className="col">
+                        <input type="text" 
+                                className="form-control" 
+                                id="nameSearch" 
+                                name="nameSearch"
+                                value={nameSearch}
+                                placeholder="Search"
+                                onChange={e => onChange(e)}
+                                >
+                        </input>
                     </div>
                 </div>
-            </div>
+                <div className="row">
+                    <div className="col">
+                        <div className="alert alert-warning" role="alert">
+                            No items found
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
         );
     }
 
     return (
-
-        <div className="row">
-            <div className="col">
-                <table className="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Detail</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Owner</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map(item => (
-                            <tr key={item.id}>
-                                <td><Link to={`/item/${item.id}`}>Click</Link></td>
-                                <td>{item.name}</td> 
-                                <td>{item.price}</td>
-                                <td>{item.owner.name}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colSpan="4">
-                                <ReactPaginate
-                                    previousLabel={'previous'}
-                                    nextLabel={'next'}
-                                    breakLabel={'...'}
-                                    breakClassName={'break-me'}
-                                    pageCount={pageCount}
-                                    marginPagesDisplayed={2}
-                                    pageRangeDisplayed={5}
-                                    onPageChange={handlePageClick}
-                                    containerClassName={'pagination'}
-                                    subContainerClassName={'pages pagination'}
-                                    activeClassName={'active'}
-                                />
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>               
+        <Fragment>
+            <div className="row">
+                <div className="col">
+                    <input type="text" 
+                            className="form-control" 
+                            id="nameSearch" 
+                            name="nameSearch"
+                            value={nameSearch}
+                            placeholder="Search"
+                            onChange={e => onChange(e)}
+                            >
+                    </input>
+                </div>
             </div>
-        </div>
+            <div className="row">
+                <div className="col">
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Detail</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map(item => (
+                                <tr key={item.id}>
+                                    <td><Link to={`/item/${item.id}`}>Click</Link></td>
+                                    <td>{item.name}</td> 
+                                    <td>{item.price}</td>
+                                    <td>{item.owner.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colSpan="4">
+                                    <ReactPaginate
+                                        previousLabel={'previous'}
+                                        nextLabel={'next'}
+                                        breakLabel={'...'}
+                                        breakClassName={'break-me'}
+                                        pageCount={pageCount}
+                                        marginPagesDisplayed={2}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={handlePageClick}
+                                        containerClassName={'pagination'}
+                                        subContainerClassName={'pages pagination'}
+                                        activeClassName={'active'}
+                                    />
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>               
+                </div>
+            </div>
+        </Fragment>      
     );
 }
 

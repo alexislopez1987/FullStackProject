@@ -21,14 +21,23 @@ exports.list_by_user = async (req, res) => {
 
         let page = parseInt(req.query.page) || 0;
         let limit = parseInt(req.query.limit) || 2;
+        let nameSearch = req.query.search || '';
 
-        const items = await Item.find({ owner: userId })
+        let filter = { owner: userId };
+        
+        if (nameSearch !== '') {
+            filter.name = { $regex: nameSearch, $options: 'i' };
+        }
+
+        console.log("filter", filter);
+
+        const items = await Item.find(filter)
                                 .populate('owner', 'name lastName -_id')
                                 .skip(page * limit)
                                 .limit(limit)
                                 .sort({ created: -1 });
 
-        const cont = await Item.countDocuments({owner: userId});
+        const cont = await Item.countDocuments(filter);
 
         res.json({items, cont});
     } catch (err) {

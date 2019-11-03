@@ -39,22 +39,22 @@ const CreateItem = (props) => {
         };
 
         try {
-            //setIsLoading(true);
+            setIsLoading(true);
             const config = {
                 headers: {
                     'Content-Type' : 'application/x-www-form-urlencoded'
                 }
             }
 
-            const resp = await API.post('/item', qs.stringify(newItem), config);
+            await API.post('/item', qs.stringify(newItem), config);
 
-            //setIsLoading(false);
+            setIsLoading(false);
             clearFormData();
             props.sendAlert("Item Created", SUCCESS);
             redirect();
 
         } catch (err) {
-            //setIsLoading(false);
+            setIsLoading(false);
             props.sendAlert(err.response.data.error, ERROR);
         }
     }

@@ -1,6 +1,6 @@
 # Personal Finance
 
-Node.js backend
+MERN stack app + docker
 
 ## Getting Started
 

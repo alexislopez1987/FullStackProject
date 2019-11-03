@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import Item from './Item';
 import API from "./../../utils/API";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -107,16 +108,12 @@ function Items(props) {
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Owner</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map(item => (
-                                <tr key={item.id}>
-                                    <td><Link to={`/item/${item.id}`}>Click</Link></td>
-                                    <td>{item.name}</td> 
-                                    <td>{item.price}</td>
-                                    <td>{item.owner.name}</td>
-                                </tr>
+                                <Item key={item.id} item={item} />
                             ))}
                         </tbody>
                         <tfoot>

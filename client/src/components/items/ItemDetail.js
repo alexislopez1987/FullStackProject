@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import API from '../../utils/API';
 import { Button } from 'reactstrap';
 import { withRouter } from "react-router";
+import Spinner from './../layout/Spinner';
 
 function ItemDetail(props) {
 
@@ -24,19 +25,14 @@ function ItemDetail(props) {
     }, []);
 
     if (isLoading) {
-        return (
-            <div className="row">
-                <div className="col">
-                    Loading...
-                </div>
-            </div>         
-        );
+        return <Spinner />;
     }
 
     return (
         <div className="row">
             <div className="col">
                 <h1>{item.name}</h1>
+                <p>$ {item.price}</p>
                 <Button outline color="primary" onClick={() => props.history.goBack()}>Back</Button>
             </div>
         </div>

@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateItem from './components/items/CreateItem';
+import UpdateItem from './components/items/UpdateItem';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
               <PrivateRoute path="/items" component={Items} />
               <PrivateRoute path="/item/:id" component={ItemDetail} />
               <PrivateRoute path="/createitem" component={CreateItem} />
+              <PrivateRoute path="/updateitem/:id" component={UpdateItem} />
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
               <Route component={GenericNotFound}/> 

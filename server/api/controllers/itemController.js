@@ -32,7 +32,7 @@ exports.list_by_user = async (req, res) => {
         console.log("filter", filter);
 
         const items = await Item.find(filter)
-                                .populate('owner', 'name lastName -_id')
+                                .populate('owner', 'name lastName')
                                 .skip(page * limit)
                                 .limit(limit)
                                 .sort({ created: -1 });

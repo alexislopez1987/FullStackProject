@@ -80,4 +80,8 @@ router.delete('/item/:id', (req, res) => {
     itemController.delete(req, res);
 })
 
+router.put('/item', (req, res) => {
+    itemController.update(req, res);
+})
+
 module.exports = router

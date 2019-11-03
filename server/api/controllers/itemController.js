@@ -102,3 +102,19 @@ exports.delete = async (req, res) => {
         res.status(500).json({'error': `item ${id} can't be deleted`});
     }
 };
+
+exports.update = async (req, res) => {
+    const id = req.body.id;
+    try {     
+        const name = req.body.name;
+        const price = req.body.price;
+
+        const query = await Item.findByIdAndUpdate({ _id: id }, { name, price });
+        res.json({msg: `item ${id} updated`});
+    } catch (err) {
+        if (err.kind == 'ObjectId') {
+            res.status(500).json({'error': `invalid id ${id}`});
+        }
+        res.status(500).json({'error': `item ${id} can't be updated`});
+    }
+};

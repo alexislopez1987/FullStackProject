@@ -6,8 +6,16 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import Spinner from './../layout/Spinner';
 import ReactPaginate from 'react-paginate';
+import Modal from './../common/Modal';
+import useModal from './../common/useModal';
+import { ERROR, SUCCESS } from './../../utils/alertTypes';
+import { sendAlert } from './../../actions/alerts';
 
 function Items(props) {
+
+    const {isShowing, hide, show} = useModal();
+    const [selectedItemId, setSelectedItemId] = useState('');
+    const [selectedItemName, setSelectedItemName] = useState('');
 
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -18,19 +26,23 @@ function Items(props) {
 
     useEffect(() => {
         if (props.user && props.user.id) {
-            API.get(`item/${props.user.id}?page=${page}&limit=${limit}&search=${nameSearch}`)
-            .then(function (response) {
-                setItems(response.data.items);
-                setPageCount(Math.ceil(response.data.cont / limit));
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .finally(function () {
-                setIsLoading(false);
-            });
+            getItems(props.user.id, page, limit, nameSearch);
         }
     }, [props.user, page, nameSearch]);
+
+    const getItems = (id, page, limit, nameSearch) => {
+        API.get(`item/${id}?page=${page}&limit=${limit}&search=${nameSearch}`)
+        .then(function (response) {
+            setItems(response.data.items);
+            setPageCount(Math.ceil(response.data.cont / limit));
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .finally(function () {
+            setIsLoading(false);
+        });
+    }
 
     const handlePageClick = (data) => {
         let pageSelected = data.selected;
@@ -39,6 +51,27 @@ function Items(props) {
 
     const onChange = e => {
         setNameSearch(e.target.value);
+    }
+
+    const clickItemDeleteHandler = (itemId, itemName) => {
+        setSelectedItemId(itemId);
+        setSelectedItemName(itemName);
+        show();
+    }
+
+    const clickModalDeleteHandler = async (itemId) => {
+
+        try {
+            await API.delete(`item/${itemId}`);
+            props.sendAlert("Item Deleted", SUCCESS);
+            setSelectedItemId('');
+            setSelectedItemName('');
+            hide();
+            setPage(0);
+            getItems(props.user.id, page, limit, nameSearch);
+        } catch (err) {
+            props.sendAlert(err.response.data.error, ERROR);
+        }
     }
 
     if (props.isAuthenticated === false) {
@@ -113,7 +146,7 @@ function Items(props) {
                         </thead>
                         <tbody>
                             {items.map(item => (
-                                <Item key={item.id} item={item} />
+                                <Item key={item.id} item={item} clickDelete={clickItemDeleteHandler} />
                             ))}
                         </tbody>
                         <tfoot>
@@ -138,6 +171,15 @@ function Items(props) {
                     </table>               
                 </div>
             </div>
+
+            <Modal
+                isShowing={isShowing}
+                hide={hide}
+                itemId={selectedItemId}
+                itemName={selectedItemName}
+                clickDelete={clickModalDeleteHandler}
+            />
+
         </Fragment>      
     );
 }
@@ -147,4 +189,4 @@ const mapStateToProps = state => ({
     user: state.auth.user
 });
 
-export default withRouter(connect(mapStateToProps)(Items));
+export default withRouter(connect(mapStateToProps, { sendAlert })(Items));

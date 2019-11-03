@@ -27,6 +27,7 @@ const Item = (props) => {
                         <button
                             type='button'
                             className='btn btn-danger'
+                            onClick={() => props.clickDelete(props.item.id, props.item.name)}
                         >Delete</button>
                     </Fragment>
                 ) : (null)} 

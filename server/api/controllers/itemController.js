@@ -5,8 +5,11 @@ var mongoose = require('mongoose'),
 
 
 exports.list_all_items = function (req, res) {
+
+    const populateQuery = [{path:'owner', select:'name lastName -_id'}, {path:'type', select:'name _id'}];
+
     Item.find({}).
-    populate('owner', 'name lastName -_id').
+    populate(populateQuery).
     exec(function (err, item) {
         if (err)
             res.send(err);
@@ -29,10 +32,10 @@ exports.list_by_user = async (req, res) => {
             filter.name = { $regex: nameSearch, $options: 'i' };
         }
 
-        console.log("filter", filter);
+        const populateQuery = [{path:'owner', select:'name lastName'}, {path:'type', select:'name _id'}];
 
         const items = await Item.find(filter)
-                                .populate('owner', 'name lastName')
+                                .populate(populateQuery)
                                 .skip(page * limit)
                                 .limit(limit)
                                 .sort({ created: -1 });
@@ -71,11 +74,10 @@ exports.save_item = function (req, res) {
 exports.item_detail = function (req, res) {
 
     const id = req.params.id;
-
-    console.log("id", id);
+    const populateQuery = [{path:'owner', select:'name lastName -_id'}, {path:'type', select:'name _id'}];
 
     Item.findById(id).
-    populate('owner', 'name lastName -_id').
+    populate(populateQuery).
     exec(function (err, item) {
         if (err){
             if (err.kind == 'ObjectId') {

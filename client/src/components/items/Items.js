@@ -141,6 +141,7 @@ function Items(props) {
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Owner</th>
+                                <th scope="col">Type</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>

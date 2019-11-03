@@ -7,6 +7,7 @@ const verifyToken = require('./verifyToken');
 
 const itemController = require('../controllers/itemController');
 const userController = require('../controllers/userController');
+const itemTypeController = require('../controllers/itemTypeController');
 
 const options = {
     swaggerDefinition: {
@@ -82,6 +83,10 @@ router.delete('/item/:id', (req, res) => {
 
 router.put('/item', (req, res) => {
     itemController.update(req, res);
+})
+
+router.get('/itemtype', function (req, res) {
+    itemTypeController.list_all_item_types(req, res);
 })
 
 module.exports = router

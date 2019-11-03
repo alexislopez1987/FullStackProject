@@ -15,6 +15,7 @@ const Item = (props) => {
             <td>{props.item.name}</td> 
             <td>$ {props.item.price}</td>
             <td>{props.item.owner.name}</td>
+            <td>{props.item.type.name}</td>
             <td>
                 {props.item.owner.id === props.user.id ? (
                     <Fragment>

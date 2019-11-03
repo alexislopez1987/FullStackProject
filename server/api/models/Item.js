@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var ItemSchema = new Schema({
     name: {
         type: String,
-        required: 'Name price is required'
+        required: 'Item name is required'
     },
     created: {
         type: Date,
@@ -19,6 +19,11 @@ var ItemSchema = new Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: 'You must supply an owner'
+    },
+    type: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'ItemType',
+        required: 'You must supply an item type'
     }
 }, {
     toJSON: {

@@ -18,6 +18,7 @@ app.use(cors(corsOptions));
 
 require('./api/models/Item');
 require('./api/models/User');
+require('./api/models/ItemType');
 
 const routes = require('./api/routes/routes');
 

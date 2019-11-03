@@ -33,6 +33,8 @@ function ItemDetail(props) {
             <div className="col">
                 <h1>{item.name}</h1>
                 <p>$ {item.price}</p>
+                <p>type: {item.type.name}</p>
+                <p>owner: {item.owner.name}</p>
                 <Button outline color="primary" onClick={() => props.history.goBack()}>Back</Button>
             </div>
         </div>

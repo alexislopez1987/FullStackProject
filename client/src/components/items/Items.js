@@ -54,6 +54,14 @@ function Items(props) {
         return <Spinner />;
     }
 
+    const createItem = (
+        <div className="row">
+            <div className="col-md-3">
+                <Link to="/createitem">Create Item</Link>
+            </div>
+        </div>
+    );
+
     const textSearch = (
         <div className="row">
             <div className="col">
@@ -73,6 +81,7 @@ function Items(props) {
     if (!isLoading && items.length === 0) {
         return (
             <Fragment>
+                { createItem }
                 { textSearch }
                 <div className="row">
                     <div className="col">
@@ -87,6 +96,7 @@ function Items(props) {
 
     return (
         <Fragment>
+            { createItem }
             { textSearch }
             <div className="row">
                 <div className="col">

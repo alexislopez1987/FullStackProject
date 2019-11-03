@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './components/routing/PrivateRoute';
+import CreateItem from './components/items/CreateItem';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
               <Route path="/" exact component={Home} />
               <PrivateRoute path="/items" component={Items} />
               <PrivateRoute path="/item/:id" component={ItemDetail} />
+              <PrivateRoute path="/createitem" component={CreateItem} />
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
               <Route component={GenericNotFound}/> 

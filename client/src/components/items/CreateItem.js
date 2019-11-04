@@ -85,9 +85,7 @@ const CreateItem = (props) => {
     }
 
     const redirect = () => {
-        setTimeout(() => 
-            props.history.push('/items'), 2000 
-        );
+        props.history.push('/items');
     }
 
     if (!props.user && !props.user.id) {

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import API from '../../utils/API';
 import qs from 'querystring';
 import { connect } from 'react-redux';
@@ -9,13 +9,23 @@ import Spinner from './../layout/Spinner';
 
 const CreateItem = (props) => {
 
+    useEffect(() => {
+        const fetchItemType = async () => {
+            const result = await API.get("/itemtype")
+            setItemTypeData(result.data);
+        };
+        fetchItemType();
+    }, []);
+
     const [formData, setFormData] = useState({
         name: '',
-        price: ''
+        price: '',
+        itemtype: '0'
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [itemTypeData, setItemTypeData] = useState([]);
 
-    const {name, price} = formData;
+    const {name, price, itemtype} = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -32,10 +42,16 @@ const CreateItem = (props) => {
             return;
         }
 
+        if (itemtype === '0') {
+            props.sendAlert("You must select a type", ERROR);
+            return;
+        }
+
         const newItem = {
             name,
             price: parseInt(price),
-            owner: props.user.id
+            owner: props.user.id,
+            type: itemtype
         };
 
         try {
@@ -63,7 +79,8 @@ const CreateItem = (props) => {
         setFormData({ 
             ...formData, 
             name: '',
-            price: ''
+            price: '',
+            itemtype: '0'
         });
     }
 
@@ -107,6 +124,15 @@ const CreateItem = (props) => {
                            onChange={e => onChange(e)}
                            >
                     </input>
+                </div>
+                <div className="form-group">
+                    <label>Type:</label>
+                    <select name="itemtype" id="itemtype" className="form-control" onChange={e => onChange(e)}>
+                        <option value="0">Selecione...</option>
+                        {itemTypeData.map(itemType => (
+                            <option key={itemType.id} value={itemType.id}>{itemType.name}</option>
+                        ))}
+                    </select>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

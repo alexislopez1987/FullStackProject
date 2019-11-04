@@ -57,11 +57,13 @@ exports.save_item = function (req, res) {
     const name = req.body.name;
     const price = req.body.price;
     const owner = req.body.owner;
+    const type = req.body.type;
 
     const itemToSave = new Item({
         name,
         price,
-        owner
+        owner,
+        type
     });
 
     itemToSave.save(function (err, item) {
@@ -110,8 +112,9 @@ exports.update = async (req, res) => {
     try {     
         const name = req.body.name;
         const price = req.body.price;
+        const type = req.body.type;
 
-        const query = await Item.findByIdAndUpdate({ _id: id }, { name, price });
+        const query = await Item.findByIdAndUpdate({ _id: id }, { name, price, type });
         res.json({msg: `item ${id} updated`});
     } catch (err) {
         if (err.kind == 'ObjectId') {

@@ -12,24 +12,35 @@ const UpdateItem = (props) => {
 
     useEffect(() => {
         const fetchItem = async () => {
-            const result = await API.get(`/itemdetail/${props.match.params.id}`)
-            setFormData({
-                ...formData,
-                name: result.data.name,
-                price: result.data.price
-            });
+
+            try {
+                const itemTypes = await API.get("/itemtype");
+                setItemTypeData(itemTypes.data);
+
+                const result = await API.get(`/itemdetail/${props.match.params.id}`)
+                setFormData({
+                    ...formData,
+                    name: result.data.name,
+                    price: result.data.price,
+                    itemtype: result.data.type.id
+                });
+            } catch (err) {
+                props.sendAlert(err, ERROR);
+            }
         };
         fetchItem();
     }, []);
 
     const [formData, setFormData] = useState({
         name: '',
-        price: ''
+        price: '',
+        itemtype: '0'
     });
 
     const [isLoading, setIsLoading] = useState(false);
+    const [itemTypeData, setItemTypeData] = useState([]);
 
-    const {name, price} = formData;
+    const {name, price, itemtype} = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -46,10 +57,16 @@ const UpdateItem = (props) => {
             return;
         }
 
+        if (itemtype === '0') {
+            props.sendAlert("You must select a type", ERROR);
+            return;
+        }
+
         const updateItem = {
             id: props.match.params.id, 
             name,
-            price: parseInt(price)
+            price: parseInt(price),
+            type: itemtype
         };
 
         try {
@@ -77,7 +94,8 @@ const UpdateItem = (props) => {
         setFormData({ 
             ...formData, 
             name: '',
-            price: ''
+            price: '',
+            itemtype: '0'
         });
     }
 
@@ -115,6 +133,15 @@ const UpdateItem = (props) => {
                            onChange={e => onChange(e)}
                            >
                     </input>
+                </div>
+                <div className="form-group">
+                    <label>Type:</label>
+                    <select name="itemtype" id="itemtype" className="form-control" value={itemtype} onChange={e => onChange(e)}>
+                        <option value="0">Selecione...</option>
+                        {itemTypeData.map(itemType => (
+                            <option key={itemType.id} value={itemType.id}>{itemType.name}</option>
+                        ))}
+                    </select>
                 </div>
                 <Link to="/items">Back</Link> {' '}
                 <button type="submit" className="btn btn-primary">Update</button>

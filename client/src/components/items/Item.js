@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
+import Moment from 'react-moment';
 
 const Item = (props) => {
 
@@ -14,6 +15,7 @@ const Item = (props) => {
             <td><Link to={`/item/${props.item.id}`}>Detail</Link></td>
             <td>{props.item.name}</td> 
             <td>$ {props.item.price}</td>
+            <td> <Moment format='YYYY/MM/DD'>{props.item.created}</Moment></td>
             <td>{props.item.owner.name}</td>
             <td>{props.item.type.name}</td>
             <td>

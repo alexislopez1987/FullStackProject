@@ -28,11 +28,6 @@ const CreateItem = (props) => {
 
         const {name, price, itemtype} = data;
 
-        if (itemtype === '0') {
-            props.sendAlert("You must select a type", ERROR);
-            return;
-        }
-
         const newItem = {
             name,
             price: parseInt(price),
@@ -93,8 +88,8 @@ const CreateItem = (props) => {
                            ref={register({ required: true, minLength: 3 })}
                            >
                     </input>
-                    {errors.name && errors.name.type === 'required' && 'Name is required'}
-                    {errors.name && errors.name.type === 'minLength' && 'Min length of name is 3'}
+                    {errors.name && errors.name.type === 'required' && <div className="has-error">Name is required</div>}
+                    {errors.name && errors.name.type === 'minLength' && <div className="has-error">Min length of name is 3</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="price">Price:</label>
@@ -105,22 +100,24 @@ const CreateItem = (props) => {
                            ref={register({ required: true, min: 10 })}
                            >
                     </input>
-                    {errors.price && errors.price.type === 'required' && 'Price is required'}
-                    {errors.price && errors.price.type === 'min' && 'Min value of price is 10'}
+                    {errors.price && errors.price.type === 'required' && <div className="has-error">Price is required</div>}
+                    {errors.price && errors.price.type === 'min' && <div className="has-error">Min value of price is 10</div>}
                 </div>
                 <div className="form-group">
                     <label>Type:</label>
                     <select name="itemtype" 
                             id="itemtype" 
                             className="form-control" 
-                            ref={register}
+                            ref={register({validate: {
+                                mustSelect: value => value !== "0"
+                            }})}
                     >
                         <option value="0">Selecione...</option>
                         {itemTypeData.map(itemType => (
                             <option key={itemType.id} value={itemType.id}>{itemType.name}</option>
                         ))}
                     </select>
-                    {errors.itemtype && console.log("error itemtype")}
+                    {errors.itemtype && errors.itemtype.type === "mustSelect" && <div className="has-error">Type is required</div>}
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Router, Switch, Route} from 'react-router-dom';
 import { createBrowserHistory } from "history";
-import Items from  './components/items/Items';
 import ItemDetail from './components/items/ItemDetail';
 import GenericNotFound from './components/layout/GenericNotFound';
 import Nav from './components/layout/Nav';
@@ -16,36 +15,44 @@ import store from './store';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateItem from './components/items/CreateItem';
 import UpdateItem from './components/items/UpdateItem';
+import Spinner from './components/layout/Spinner';
+import ErrorBoundary from './components/common/ErrorBoundary';
+
+const Items = React.lazy(() => import('./components/items/Items'));
 
 function App() {
 
   const history = createBrowserHistory();
 
   return (
-    <Provider store={store}>
-        <Router history={history}>
-          <Reload />
-          <Alerts />
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <Nav />
+    <ErrorBoundary>
+      <Provider store={store}>
+        <Suspense fallback={<Spinner />}>
+          <Router history={history}>
+            <Reload />
+            <Alerts />
+            <div className="container">
+              <div className="row">
+                <div className="col">
+                  <Nav />
+                </div>
               </div>
+            
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <PrivateRoute path="/items" component={Items} />
+                <PrivateRoute path="/item/:id" component={ItemDetail} />
+                <PrivateRoute path="/createitem" component={CreateItem} />
+                <PrivateRoute path="/updateitem/:id" component={UpdateItem} />
+                <Route path="/register" exact component={Register} />
+                <Route path="/login" exact component={Login} />
+                <Route component={GenericNotFound}/> 
+              </Switch>    
             </div>
-          
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <PrivateRoute path="/items" component={Items} />
-              <PrivateRoute path="/item/:id" component={ItemDetail} />
-              <PrivateRoute path="/createitem" component={CreateItem} />
-              <PrivateRoute path="/updateitem/:id" component={UpdateItem} />
-              <Route path="/register" exact component={Register} />
-              <Route path="/login" exact component={Login} />
-              <Route component={GenericNotFound}/> 
-            </Switch>    
-          </div>
-      </Router>
-    </Provider>
+          </Router>
+        </Suspense>
+      </Provider>     
+    </ErrorBoundary>
   );
 }
 

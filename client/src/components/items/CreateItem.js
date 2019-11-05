@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 import { sendAlert } from './../../actions/alerts';
 import { ERROR, SUCCESS } from './../../utils/alertTypes';
 import Spinner from './../layout/Spinner';
+import useForm from 'react-hook-form';
 
 const CreateItem = (props) => {
 
@@ -17,30 +18,15 @@ const CreateItem = (props) => {
         fetchItemType();
     }, []);
 
-    const [formData, setFormData] = useState({
-        name: '',
-        price: '',
-        itemtype: '0'
-    });
+    const { register, handleSubmit, errors, reset } = useForm();
+
     const [isLoading, setIsLoading] = useState(false);
     const [itemTypeData, setItemTypeData] = useState([]);
 
-    const {name, price, itemtype} = formData;
-
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const onSubmit = async e => {
+    const onSubmitVal = async (data, e) => {
         e.preventDefault();
 
-        if (isNaN(price) === true) {
-            props.sendAlert("Price must be a number", ERROR);
-            return;
-        }
-
-        if (parseInt(price) <= 0) {
-            props.sendAlert("Price must greater than 0", ERROR);
-            return;
-        }
+        const {name, price, itemtype} = data;
 
         if (itemtype === '0') {
             props.sendAlert("You must select a type", ERROR);
@@ -76,10 +62,9 @@ const CreateItem = (props) => {
     }
 
     const clearFormData = () => {
-        setFormData({ 
-            ...formData, 
-            name: '',
-            price: '',
+        reset({
+            name: "",
+            price: "",
             itemtype: '0'
         });
     }
@@ -98,18 +83,18 @@ const CreateItem = (props) => {
 
     return (
         <Fragment>
-            <form onSubmit={e => onSubmit(e)}>
+            <form onSubmit={handleSubmit(onSubmitVal)}>
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
                     <input type="text" 
                            className="form-control" 
                            id="name" 
                            name="name" 
-                           required
-                           value={name}
-                           onChange={e => onChange(e)}
+                           ref={register({ required: true, minLength: 3 })}
                            >
                     </input>
+                    {errors.name && errors.name.type === 'required' && 'Name is required'}
+                    {errors.name && errors.name.type === 'minLength' && 'Min length of name is 3'}
                 </div>
                 <div className="form-group">
                     <label htmlFor="price">Price:</label>
@@ -117,20 +102,25 @@ const CreateItem = (props) => {
                            className="form-control" 
                            id="price" 
                            name="price" 
-                           required
-                           value={price}
-                           onChange={e => onChange(e)}
+                           ref={register({ required: true, min: 10 })}
                            >
                     </input>
+                    {errors.price && errors.price.type === 'required' && 'Price is required'}
+                    {errors.price && errors.price.type === 'min' && 'Min value of price is 10'}
                 </div>
                 <div className="form-group">
                     <label>Type:</label>
-                    <select name="itemtype" id="itemtype" className="form-control" onChange={e => onChange(e)}>
+                    <select name="itemtype" 
+                            id="itemtype" 
+                            className="form-control" 
+                            ref={register}
+                    >
                         <option value="0">Selecione...</option>
                         {itemTypeData.map(itemType => (
                             <option key={itemType.id} value={itemType.id}>{itemType.name}</option>
                         ))}
                     </select>
+                    {errors.itemtype && console.log("error itemtype")}
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

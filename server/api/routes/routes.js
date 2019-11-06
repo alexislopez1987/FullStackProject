@@ -38,7 +38,6 @@ router.get('/users', verifyToken, function (req, res) {
 })
 
 router.get('/user', verifyToken, function (req, res) {
-    console.log("get user by id", req.user);
     userController.user_by_id(req, res);
 })
 
@@ -83,6 +82,10 @@ router.delete('/item/:id', (req, res) => {
 
 router.put('/item', (req, res) => {
     itemController.update(req, res);
+})
+
+router.get('/dashboard', verifyToken, function (req, res) {
+    itemController.items_by_date(req, res);
 })
 
 router.get('/itemtype', function (req, res) {

@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item');
-
+const moment = require('moment');
 
 exports.list_all_items = function (req, res) {
 
@@ -123,3 +123,45 @@ exports.update = async (req, res) => {
         res.status(500).json({'error': `item ${id} can't be updated`});
     }
 };
+
+exports.items_by_date = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        let from = req.query.from || '';
+        let to = req.query.to || '';
+        let filter = { owner: userId };
+        let filterDates = {};
+
+        if (from !== '') {
+            filterDates["$gte"] = moment(from, 'YYYY/MM/DD');
+        }
+
+        if (to !== '') {
+            filterDates["$lte"] = moment(to, 'YYYY/MM/DD');
+        }
+
+        if (!isEmpty(filterDates)) {
+            filter.created = filterDates;
+        }
+
+        const populateQuery = [{path:'owner', select:'name lastName'}, {path:'type', select:'name _id'}];
+
+        const items = await Item.find(filter)
+                                .populate(populateQuery)
+                                .sort({ created: -1 })
+                                .lean();
+
+        res.json(items);
+
+    } catch (err) {
+        if (err.kind == 'ObjectId') {
+            res.status(500).json({'error': `invalid user ${userId}`});
+        }
+        res.status(500).json({'error': `items by dates can't be got `});
+    }
+}
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}

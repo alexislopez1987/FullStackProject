@@ -1,6 +1,7 @@
 const fs = require('fs');
 var mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const moment = require('moment');
 
 const ItemType = require('../models/ItemType');
 const User = require('../models/User');
@@ -44,7 +45,7 @@ exports.loadData = async function loadData() {
                     return el.name ===  item.type;
                 });
 
-                item.created = new Date();
+                item.created = moment(item.created, "YYYY/MM/DD");
                 item.owner = user._id;
                 item.type = relatedType[0].id,
                 itemsToInsert.push(item);

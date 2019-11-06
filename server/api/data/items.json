@@ -1,42 +1,42 @@
 [
     {
         "name" : "metallica ticket",
-        "created": "",
+        "created": "2019/11/05",
         "price": "80000",
         "owner": "alexis.lopez@gmail.com",
         "type": "leisure"
     },
     {
         "name" : "tool album",
-        "created": "",
+        "created": "2019/08/01",
         "price": "50000",
         "owner": "alexis.lopez@gmail.com",
         "type": "leisure"
     },
     {
         "name" : "king crimson ticket",
-        "created": "",
+        "created": "2019/05/13",
         "price": "25000",
         "owner": "alexis.lopez@gmail.com",
         "type": "leisure"
     },
     {
         "name" : "ceviche",
-        "created": "",
+        "created": "2019/05/05",
         "price": "12000",
         "owner": "alexis.lopez@gmail.com",
         "type": "food"
     },
     {
         "name" : "guitarra",
-        "created": "",
+        "created": "2019/01/12",
         "price": "130000",
         "owner": "alexis.lopez@gmail.com",
         "type": "leisure"
     },
     {
         "name" : "beer 6 pack",
-        "created": "",
+        "created": "2018/11/01",
         "price": "7000",
         "owner": "juan.perez@gmail.com",
         "type": "food"

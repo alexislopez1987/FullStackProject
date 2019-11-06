@@ -60,7 +60,7 @@ router.post('/login', function (req, res) {
  *      tags:
  *       - items
  */
-router.get('/item', function (req, res) {
+router.get('/items', function (req, res) {
     itemController.list_all_items(req, res);
 })
 
